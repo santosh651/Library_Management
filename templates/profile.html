@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+                <div class="sidebar-sticky">
+                    <h2 class="text-white text-center py-4">Dashboard</h2>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ url_for('profile') }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                        </li>
+                    </ul>
+                    <p class="text-white text-center mt-4">Logged in as: {{ session.username }}</p>
+                </div>
+            </nav>
+
+            <!-- Profile Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Profile of {{ session.username }}</h1>
+                </div>
+
+                <!-- Profile Details -->
+                <div class="profile-section">
+                    <h3>Your Profile</h3>
+                    <ul>
+                        <li><strong>Organization:</strong> {{ profile.organization_name if profile.organization_name else "N/A" }}</li>
+                        <li><strong>Email ID:</strong> {{ profile.email if profile.email else "N/A" }}</li>
+                        <li><strong>Phone Number:</strong> {{ profile.phone_number if profile.phone_number else "N/A" }}</li>
+                        <li><strong>Student ID:</strong> {{ profile.student_id if profile.student_id else "N/A" }}</li>
+                    </ul>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                </div>
+
+                <!-- Edit Profile Modal -->
+                <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{{ url_for('profile') }}">
+                                    <div class="form-group">
+                                        <label for="organization_name">Organization Name</label>
+                                        <input type="text" class="form-control" id="organization_name" name="organization_name" value="{{ organization_name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email ID</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ email }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone_number">Phone Number</label>
+                                        <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ phone_number }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="student_id">Student ID</label>
+                                        <input type="text" class="form-control" id="student_id" name="student_id" value="{{ student_id }}">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
